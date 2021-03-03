@@ -11,7 +11,7 @@ int32_t main(){
     int T; cin >> T;
 
     while(T--){
-        int n, k; cin >> n >> k;
+        int n, k, type; cin >> n >> k >> type;
 
         vector<int> a(n+1);
         for(int i = 1; i <= n; i++){
@@ -36,7 +36,17 @@ int32_t main(){
             
             int sum = accumulate(a.begin()+l, a.begin()+r+1, 0LL);
             
-            for(int j = r+1; sum > 0; j++){
+            int lower;
+            if(type == 1) lower = r+1;
+            else {
+                pii tmp = {r, -1};
+                auto it = upper_bound(queries.begin(), queries.end(), tmp);
+                assert(it != queries.begin());
+                lower = prev(it)->second+1;
+
+            }
+
+            for(int j = lower; sum > 0; j++){
                 if(i == q-1){
                     if(j > n) break;
                 }

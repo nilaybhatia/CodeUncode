@@ -3,11 +3,15 @@
 using namespace std;
 #define int long long
 #define pii pair<int, int>
-
+int SEED;
 // seeds 1, 2, 3 respectively for 1, 2, 3
+// For feature 1:
 // for small, MAX_N = 10^3, MAX_K = 10^5
 // for large MAX_N = 10^6, MAX_K = 10^9
-mt19937_64 prng(1); // chrono::high_resolution_clock::now().time_since_epoch().count()
+
+// For feature 2:
+// MAX_N = 10^6, MAX_K = 10^9
+mt19937_64 prng(SEED); // chrono::high_resolution_clock::now().time_since_epoch().count()
 // returns x such that a <= x <= b
 long long random(long long a, long long b)
 {
@@ -19,6 +23,8 @@ long long random(long long a, long long b)
 // }
 
 int32_t main(int32_t argc, char* argv[]){
+    int type = stoi(argv[1]);
+    SEED = stoi(argv[2]);
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
     int T = 10; // cin >> T;
@@ -26,16 +32,16 @@ int32_t main(int32_t argc, char* argv[]){
 
     while(T--){
         // cout << T << ":\n";
-        const int MIN_N = 1, MAX_N = 1000000;
+        const int MIN_N = 1, MAX_N = stoi(argv[3]);
         const int n = random(MIN_N, MAX_N);
         assert(MIN_N <= n and n <= MAX_N);
 
-        const int MIN_K = 1, MAX_K = 1000000000;
+        const int MIN_K = 1, MAX_K = stoi(argv[4]);
         const int k = random(MIN_K, MAX_K);
         assert(MIN_K <= k and k <= MAX_K);
         // cout << T << ":\n";
 
-        cout << n << " " << k << "\n";
+        cout << n << " " << k << " " << type << "\n";
         int MIN_Ai = 1, MAX_Ai = k;
         for(int i = 1; i <= n; i++){
             int ai = random(MIN_Ai, MAX_Ai);
@@ -44,21 +50,40 @@ int32_t main(int32_t argc, char* argv[]){
         }
         cout << endl;
         vector<pii> queries;
-        int prev = -1;
+        
+        if(type == 1){
+            int prev = -1;
 
-        while(prev+2 <= n){
-            
-            int l = random(prev+2, n);
-            int width = random(1, n);
-            int r = l + width-1;
-            if(r > n) break;
-            assert(l > prev);
-            assert(l <= n);
-            assert(r >= l);
-            assert(r <= n);
-            queries.push_back({l, r});
-            prev = r;
+            while(prev+2 <= n){
+                
+                int l = random(prev+2, n);
+                int width = random(1, n);
+                int r = l + width-1;
+                if(r > n) break;
+                assert(l > prev);
+                assert(l <= n);
+                assert(r >= l);
+                assert(r <= n);
+                queries.push_back({l, r});
+                prev = r;
+            }
         }
+        else{
+            int prev = 0;
+            while(prev+1 <= n){
+                int l = random(prev+1, n);
+                int width = random(1, n);
+                int r = l + width-1;
+                if(r > n) break;
+                assert(l > prev);
+                assert(l <= n);
+                assert(r >= l);
+                assert(r <= n);
+                queries.push_back({l, r});
+                prev = l;
+            }
+        }
+
         int q = queries.size();
         cout << q << "\n";
         random_shuffle(queries.begin(), queries.end());
