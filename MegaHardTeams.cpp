@@ -1,0 +1,72 @@
+#pragma GCC optimize "trapv"
+#include<bits/stdc++.h>
+using namespace std;
+#define int long long
+#define pii pair<int, int>
+
+int32_t main(){
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    int T; cin >> T;
+
+    while(T--){
+        int n, k; cin >> n >> k;
+
+        vector<int> a(n+1);
+        for(int i = 1; i <= n; i++){
+            cin >> a[i];
+            assert( 1 <= a[i] and a[i] <= k);
+        }
+
+        // create required prefix arrays
+        vector<int> pref_a(n+1);
+        for(int i = 1; i <= n; i++){
+            pref_a[i] = pref_a[i-1] + a[i];
+        }
+        
+        vector<int> pref_remaining(n+1);
+        for(int i = 1; i <= n; i++){
+            pref_remaining[i] = pref_remaining[i-1] + k-a[i];
+        }
+
+        int q; cin >> q;
+        vector<pii> queries;
+
+        for(int i = 1; i <= q; i++){
+            int l, r; cin >> l >> r;
+            queries.push_back({l, r});
+        }
+
+        sort(queries.begin(), queries.end());
+        bool smooth = true;
+        for(int i = 0; i < q; i++){
+            pii qry = queries[i];
+            int l = qry.first, r = qry.second;
+            
+            int total_buffered_size = pref_a[r] - pref_a[l-1];
+
+            int index = lower_bound(pref_remaining.begin(), pref_remaining.end(), total_buffered_size + pref_remaining[r]) - pref_remaining.begin();
+
+            if(i == q-1){ // last query
+                if(index > n){
+                    smooth = false;
+                    break;
+                }
+            }
+            else{
+                if(index >= queries[i+1].first){
+                    smooth = false;
+                    break;
+                }
+            }
+        }
+        
+        if(smooth) cout << "YES";
+        else cout << "NO";
+        cout << "\n";
+
+    }
+
+    return 0;
+}
