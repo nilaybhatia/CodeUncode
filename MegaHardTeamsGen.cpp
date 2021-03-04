@@ -25,6 +25,7 @@ long long random(long long a, long long b)
 int32_t main(int32_t argc, char* argv[]){
     int type = stoi(argv[1]);
     SEED = stoi(argv[2]);
+    prng.seed(SEED);
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
     int T = 10; // cin >> T;
