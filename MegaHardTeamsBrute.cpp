@@ -43,9 +43,13 @@ int32_t main(){
                 higher = ((i == q-1)? n+1 : queries[i+1].first);
             }
             else {
-                lower = 
+                lower = r, higher = n+1;
                 for(int j = 0; j < q; j++){
-
+                    if(queries[j].first > r){
+                        lower = queries[j-1].second;
+                        higher = queries[j].first;
+                        break;
+                    }    
                 }
                 // cout << lower << " " << higher << "\n";
             }
