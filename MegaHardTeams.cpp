@@ -46,28 +46,25 @@ int32_t main(){
 
             int total_buffered_size = pref_a[r] - pref_a[l-1];
 
-            int lower;
-            if(type == 1) lower = r+1;
+            int lower, higher;
+            if(type == 1) {
+                lower = r+1;
+                higher = ((i == q-1)? n+1 : queries[i+1].first);
+            }
             else {
                 pii tmp = {r, -1};
                 auto it = upper_bound(queries.begin(), queries.end(), tmp);
                 assert(it != queries.begin());
                 lower = prev(it)->second+1;
-
+                higher = ((it == queries.end())? n+1 : it->first);
+                // cout << lower << " " << higher << "\n";
             }
+
             int index = lower_bound(pref_remaining.begin()+lower, pref_remaining.end(), total_buffered_size + pref_remaining[r]) - pref_remaining.begin();
 
-            if(i == q-1){ // last query
-                if(index > n){
-                    smooth = false;
-                    break;
-                }
-            }
-            else{
-                if(index >= queries[i+1].first){
-                    smooth = false;
-                    break;
-                }
+            if(index >= higher){
+                smooth = false;
+                break;
             }
         }
         

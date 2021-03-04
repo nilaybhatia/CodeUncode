@@ -34,28 +34,26 @@ int32_t main(){
             pii qry = queries[i];
             int l = qry.first, r = qry.second;
             
-            int sum = accumulate(a.begin()+l, a.begin()+r+1, 0LL);
+            int total_buffered_size = accumulate(a.begin()+l, a.begin()+r+1, 0LL);
+            // cout << l << " " << r << " " << total_buffered_size << "\n";
             
-            int lower;
-            if(type == 1) lower = r+1;
+            int lower, higher;
+            if(type == 1) {
+                lower = r+1;
+                higher = ((i == q-1)? n+1 : queries[i+1].first);
+            }
             else {
-                pii tmp = {r, -1};
-                auto it = upper_bound(queries.begin(), queries.end(), tmp);
-                assert(it != queries.begin());
-                lower = prev(it)->second+1;
+                lower = 
+                for(int j = 0; j < q; j++){
 
+                }
+                // cout << lower << " " << higher << "\n";
             }
 
-            for(int j = lower; sum > 0; j++){
-                if(i == q-1){
-                    if(j > n) break;
-                }
-                else{
-                    if(j >= queries[i+1].first) break;
-                }
-                sum -= (k - a[j]);
+            for(int j = lower; j < higher and total_buffered_size > 0; j++){
+                total_buffered_size -= (k - a[j]);
             }
-            if(sum > 0){
+            if(total_buffered_size > 0){
                 smooth = false;
                 break;
             }
