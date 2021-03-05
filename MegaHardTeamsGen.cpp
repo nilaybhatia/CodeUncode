@@ -28,7 +28,7 @@ int32_t main(int32_t argc, char* argv[]){
     prng.seed(SEED);
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
-    int T = 10; // cin >> T;
+    int T = stoi(argv[5]); // cin >> T;
     cout << T << "\n";
 
     while(T--){
@@ -58,6 +58,7 @@ int32_t main(int32_t argc, char* argv[]){
             while(prev+2 <= n){
                 
                 int l = random(prev+2, n);
+                if(l > n) break;
                 int width = random(1, n);
                 int r = l + width-1;
                 if(r > n) break;

@@ -27,7 +27,7 @@ int32_t main(int32_t argc, char* argv[]){
     prng.seed(SEED);
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
-    int T = 10; // cin >> T;
+    int T = stoi(argv[5]); // cin >> T;
     cout << T << "\n";
 
     while(T--){
