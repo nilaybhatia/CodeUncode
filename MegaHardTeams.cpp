@@ -28,19 +28,38 @@ int32_t main(){
         vector<int> pref_remaining(n+1);
         for(int i = 1; i <= n; i++){
             pref_remaining[i] = pref_remaining[i-1] + k-a[i];
+            // cout << pref_remaining[i] << " ";
         }
 
         int q; cin >> q;
         vector<pii> queries;
 
-        for(int i = 1; i <= q; i++){
+        for(int i = 0; i < q; i++){
             int l, r; cin >> l >> r;
             queries.push_back({l, r});
         }
-
+        if(q == 0){
+            cout << "YES\n";
+            continue;
+        }
+        vector<pii> queries_by_right(queries.begin(), queries.end());
+        sort(queries_by_right.begin(), queries_by_right.end(), [](pii& left, pii& right){
+            return  ((left.second == right.second)? left.first < right.first : left.second < right.second);
+        });
         sort(queries.begin(), queries.end());
+        vector<int> rightmost_connected_segment(q);
+        rightmost_connected_segment[q-1] = q-1;
+        for(int i = q-2; i >= 0; i--){
+            if(queries[i].second >= queries[i+1].first){
+                rightmost_connected_segment[i] = rightmost_connected_segment[i+1];
+            }
+            else{
+                rightmost_connected_segment[i] = i;
+            }
+        }
         bool smooth = true;
         for(int i = 0; i < q; i++){
+            // cout << i << endl;
             pii qry = queries[i];
             int l = qry.first, r = qry.second;
 
@@ -52,17 +71,20 @@ int32_t main(){
                 higher = ((i == q-1)? n+1 : queries[i+1].first);
             }
             else {
-                pii tmp = {r, -1};
-                auto it = upper_bound(queries.begin(), queries.end(), tmp);
-                assert(it != queries.begin());
-                lower = prev(it)->second+1;
+                lower = queries[rightmost_connected_segment[i]].second+1;
+                // higher = ((rightmost_connected_segment[i] == q-1)? n+1 : queries[rightmost_connected_segment[i] + 1].first);
+                pii tmp = {lower, -1};
+                auto it = lower_bound(queries.begin(), queries.end(), tmp);
                 higher = ((it == queries.end())? n+1 : it->first);
-                // cout << lower << " " << higher << "\n";
             }
-
-            int index = lower_bound(pref_remaining.begin()+lower, pref_remaining.end(), total_buffered_size + pref_remaining[r]) - pref_remaining.begin();
-
-            if(index >= higher){
+            assert(lower <= higher);
+            // cout << lower << " " << higher << endl; 
+            // we must send all buffered packets in [lower, higher)
+            // assert(is_sorted(pref_remaining.begin() + lower, pref_remaining.begin() + higher));
+            int index = lower_bound(pref_remaining.begin() + lower, pref_remaining.begin() + higher, total_buffered_size + pref_remaining[lower-1])-pref_remaining.begin();
+            assert(lower <= index and index <= higher);
+            // cout << i << ": " << index << endl;
+            if(index == higher){ // can't accomodate
                 smooth = false;
                 break;
             }

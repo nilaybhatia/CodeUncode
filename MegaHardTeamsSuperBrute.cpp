@@ -22,9 +22,11 @@ int32_t main(){
         int q; cin >> q;
         vector<pii> queries;
 
+        int rightmost = 1;
         for(int i = 1; i <= q; i++){
             int l, r; cin >> l >> r;
             queries.push_back({l, r});
+            rightmost = max(rightmost, r);
         }
 
         sort(queries.begin(), queries.end());
@@ -46,14 +48,14 @@ int32_t main(){
                 higher = ((i == q-1)? n+1 : queries[i+1].first);
             }
             else {
-                lower = r+1, higher = n+1;
+                lower = rightmost+1, higher = n+1;
                 for(int j = 0; j < q; j++){
                     if(queries[j].first > r){
-                        lower = queries[j-1].second;
+                        lower = r+1;
                         higher = queries[j].first;
                         break;
                     }
-                    r = max(r, queries[j].second);
+                    else r = max(r, queries[j].second);
                 }
                 // cout << lower << " " << higher << "\n";
             }

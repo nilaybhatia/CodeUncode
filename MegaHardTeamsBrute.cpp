@@ -23,14 +23,17 @@ int32_t main(){
         int q; cin >> q;
         vector<pii> queries;
 
+        int rightmost = 1;
         for(int i = 1; i <= q; i++){
             int l, r; cin >> l >> r;
             queries.push_back({l, r});
+            rightmost = max(rightmost, r);
         }
 
         sort(queries.begin(), queries.end());
         bool smooth = true;
         for(int i = 0; i < q; i++){
+            // cout << i << ":\n";
             pii qry = queries[i];
             int l = qry.first, r = qry.second;
             
@@ -43,13 +46,16 @@ int32_t main(){
                 higher = ((i == q-1)? n+1 : queries[i+1].first);
             }
             else {
-                lower = r, higher = n+1;
+                lower = rightmost+1, higher = n+1;
                 for(int j = 0; j < q; j++){
                     if(queries[j].first > r){
-                        lower = queries[j-1].second;
+                        // cout << j << " ";
+                        lower = r+1;
                         higher = queries[j].first;
                         break;
-                    }    
+                    }
+                    else r = max(r, queries[j].second);
+
                 }
                 // cout << lower << " " << higher << "\n";
             }
@@ -72,3 +78,5 @@ int32_t main(){
 
     return 0;
 }
+// Gotta ensure the 1st non-intersecting bar is after connected ones. Looks like the whole logic of the problem
+// for the second subtask is wrong.

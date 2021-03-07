@@ -42,11 +42,11 @@ For each testcase, output "YES" if the lecture or meeting was conducted **_smoot
 
 ### Constraints 
 - $1 \leq T \leq 10$
-- $1 \leq N \leq 10^6$
+- $1 \leq N \leq 10^5$
 - $1 \leq K \leq 10^9$
 - $1 \leq feature \leq 2$
 - $1 \leq A_{i} \leq K$
-- $1 \leq Q \leq N$
+- $0 \leq Q \leq N$
 - $1 \leq l \leq r \leq N$
 
 
@@ -59,16 +59,16 @@ For each testcase, output "YES" if the lecture or meeting was conducted **_smoot
 
 #### **Subtask 2 (30 points):**
 - $feature == 1$
-- $N \leq 10^6$
+- $N \leq 10^5$
 - $K \leq 10^9$
 
 #### **Subtask 3 (50 points):**
 - $feature == 2$
-- $N \leq 10^6$
+- $N \leq 10^5$
 - $K \leq 10^9$
 
 ### Example Input:
-    3
+    4
     10 10 1
     1 4 2 5 3 7 8 2 1 3
     2
@@ -85,19 +85,29 @@ For each testcase, output "YES" if the lecture or meeting was conducted **_smoot
     2 4
     3 5
     9 10
+    11 20 2
+    1 4 2 5 3 7 8 2 1 3 1
+    4
+    2 4
+    3 5
+    5 7
+    9 10
 
 
 ### Example Output:
 	NO
     YES
     YES
+    YES
 
 	
 ### Explanation:
 **Example case 1:** The total buffered size from $[3, 5]$ is $2 + 5 + 3 = 10$.
-The unutilised bandwidth of index 6 is 3 and that of index 7 is 2. We can send only $3+2=5$ total size of data packets, then after that the connection is lost again.
+The unutilised bandwidth of index 6 is 3 and that of index 7 is 2. We can send only $3+2=5$ total size of data packets at max, then after that the connection is lost again.
 
 **Example case 2:** The total buffered size from $[3, 5]$ is $1 + 1 + 3 = 5$.
 We can send this total size of $5$ before the connection is lost again.
 
 **Example case 3:** The unitilised capacities for all indices are $[9, 6, 8, 5, 7, 3, 2, 8, 9, 7, 9]$. The total size of data packets in $[2, 4]$ is $11$ and can be sent starting from index $6$ as $[3, 2, 6]$. The total size of data packets in $[3, 5]$ is $10$ and can be sent starting from index $6$ as $[3, 2, 5]$. Note that since capacities are independent in the 2nd feature, sending packets of the 1st interval did not reduce the unutilised capacity and we could send packets of the 2nd interval using the same indices too. The last interval's packets can be easily sent as well.
+
+**Example case 4:** Only index 8 is available for sending the packets of the first 3 intervals, and it can accomodate all of them.

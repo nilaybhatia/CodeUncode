@@ -51,14 +51,14 @@ int32_t main(int32_t argc, char* argv[]){
             }
         }
         else{
-            for(int i = 1; i < n; i++){
+            for(int i = 1; i <= 3*n/4; i++){
                 int ai = random(MAX_Ai-10, MAX_Ai);
                 assert(MAX_Ai-10 <= ai and ai <= MAX_Ai);
                 cout << ai << " ";
             }
-            cout << 1 << " ";
+            for(int i = 1; i <= n-3*n/4; i++) cout << 1 << " ";
         }
-        cout << endl;
+        cout << "\n";
         vector<pii> queries;
         
         if(type == 1){
@@ -82,9 +82,9 @@ int32_t main(int32_t argc, char* argv[]){
             int prev = 0;
             while(prev+1 <= n){
                 int l = prev+1;
-                int width = 2;
+                int width = 1000;
                 int r = l + width-1;
-                if(r > n/2) break;
+                if(r >= 3*n/4) break;
                 assert(l > prev);
                 assert(l <= n);
                 assert(r >= l);
