@@ -1,8 +1,10 @@
 name: Stress testing problems with brute force solutions available
 on: [push]
 jobs:
-  Generate tests and check diff using script
-  runs-on: ubuntu-latest
-  steps: 
-  - uses: actions/checkout@v2
-  - run: ../../mine.sh
+  Explore-GitHub-Actions:
+    runs-on: ubuntu-latest
+    steps: 
+    - uses: actions/checkout@v2
+    - run: ../../mine.sh
+
+
