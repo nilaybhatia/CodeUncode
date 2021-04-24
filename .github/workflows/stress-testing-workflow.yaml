@@ -5,6 +5,6 @@ jobs:
     runs-on: ubuntu-latest
     steps: 
     - uses: actions/checkout@v2
-    - run: mine.sh
+    - run: bash mine.sh
 
 
