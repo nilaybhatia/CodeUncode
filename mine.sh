@@ -27,12 +27,12 @@ do
 
         fname_in="tests/feat${feature}/feat${feature}_large_custom${file_num}.in"
         fname_out="tests/feat${feature}/feat${feature}_large_custom${file_num}.out"
-        ./gen.out $feature $file_num 100000 1000000000 "$((3-$feature))" > $fname_in
+        # ./gen.out $feature $file_num 100000 1000000000 "$((3-$feature))" > $fname_in
         # ./brute.out < $fname_in > brute_ans.txt
-        ./code.out < $fname_in > my_ans.txt
+        # ./code.out < $fname_in > my_ans.txt
 
         # diff -Z brute_ans.txt my_ans.txt
-        cp my_ans.txt $fname_out
+        # cp my_ans.txt $fname_out
     done
 
     # large random files
